@@ -10,4 +10,5 @@ import java.util.ArrayList;
 public interface ApiService {
     public ArrayList<String> getAllUserLifelog(String userid);
     public ArrayList<Document> getUserBookmarks(String userid);
+    public String initUserDatabase(String dbName);
 }

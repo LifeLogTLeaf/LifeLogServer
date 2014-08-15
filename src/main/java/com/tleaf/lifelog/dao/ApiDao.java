@@ -10,5 +10,6 @@ import java.util.ArrayList;
 public interface ApiDao {
     public ArrayList<String> getAllUserLifelog(String userid) throws Exception;
     public ArrayList<Document> getUserBookmarks(String userid) throws Exception;
+    public boolean initUserDatabase(String dbName) throws Exception;
 }
 

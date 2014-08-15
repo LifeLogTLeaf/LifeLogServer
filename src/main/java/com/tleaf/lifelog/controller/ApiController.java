@@ -1,11 +1,14 @@
 package com.tleaf.lifelog.controller;
 
+import com.tleaf.lifelog.dao.ApiDaoImple;
 import com.tleaf.lifelog.dto.Bookmark;
 import com.tleaf.lifelog.service.ApiService;
 import com.tleaf.lifelog.service.ResourceCreator;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
+import org.ektorp.CouchDbConnector;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
@@ -67,6 +70,12 @@ public class ApiController {
         return result;
     }
 
+    @RequestMapping(value = "{dbName}/init")
+    public String initUserDatabase(@PathVariable(value = "dbName") String dbName, ModelMap model)
+    {
+        model.addAttribute("message",apiService.initUserDatabase(dbName));
+        return "hello";
 
+    }
 
 }

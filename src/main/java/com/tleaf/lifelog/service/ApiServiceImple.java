@@ -36,4 +36,16 @@ public class ApiServiceImple implements ApiService {
         }
         return data;
     }
+
+    @Override
+    public String initUserDatabase(String dbName)
+    {
+        try {
+            apiDao.initUserDatabase(dbName);
+            return "Init Complete";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Init Failed";
+        }
+    }
 }

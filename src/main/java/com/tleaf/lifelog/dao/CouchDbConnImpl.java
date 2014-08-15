@@ -65,5 +65,4 @@ public class CouchDbConnImpl implements CouchDbConn {
                 + environment.getProperty("password") + "]";
     }
 
-
 }
