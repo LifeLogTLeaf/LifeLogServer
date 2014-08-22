@@ -32,7 +32,7 @@ public class ApiController {
     private ResourceCreator resourceCreator;
 
     /**
-     * 2014.08.06 by jYoung
+     * 2014.08.06 by young
      * 해당 사용자의 전체 라이프로그를 가져온다.
      */
     @RequestMapping(value = "{userId}/lifelogs", method = RequestMethod.GET)
@@ -44,7 +44,7 @@ public class ApiController {
     }
 
     /**
-     * 2014.08.06 by jYoung
+     * 2014.08.06 by young
      * 해당 사용자의 전체 북마크 데이터를 가져온다.
      */
     @ApiOperation(value = "GET user's all bookmark",
@@ -59,7 +59,7 @@ public class ApiController {
     }
 
     /**
-     * 2014.08.06 by jYoung
+     * 2014.08.06 by young
      * 해당 사용자의 전체 북마크 데이터를 정해진 날짜 만큼 가져온다.
      */
     @RequestMapping(value = "{userId}/bookmarks/time", method = RequestMethod.GET)
@@ -71,6 +71,12 @@ public class ApiController {
         return result;
     }
 
+    /**
+     * 2014.08.16 by susu
+     * @param dbName
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "{dbName}/init")
     @ResponseBody
     public Map<String,String> initUserDatabase(@PathVariable(value = "dbName") String dbName)
