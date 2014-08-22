@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import javax.ws.rs.Path;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -71,11 +72,12 @@ public class ApiController {
     }
 
     @RequestMapping(value = "{dbName}/init")
-    public String initUserDatabase(@PathVariable(value = "dbName") String dbName, ModelMap model)
+    @ResponseBody
+    public Map<String,String> initUserDatabase(@PathVariable(value = "dbName") String dbName)
     {
-        model.addAttribute("message",apiService.initUserDatabase(dbName));
-        return "hello";
-
+        Map<String,String> result = new HashMap<String, String>();
+        result.put( "response", apiService.initUserDatabase(dbName) );
+        return result;
     }
 
 }

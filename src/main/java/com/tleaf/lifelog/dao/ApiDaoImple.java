@@ -91,18 +91,24 @@ public class ApiDaoImple implements ApiDao {
 
     public boolean initUserDatabase( String dbName ) throws Exception {
 
+        CouchDbInstance dbInstance = couchDbConn.getCouchDbInstance();
+        if ( dbInstance.checkIfDbExists(DbPath.fromString(dbName)) ) return false;
+
+        /*
+        Edited by Susu, 2014.8.21
+        Added Checking Methods
+         */
+
         CouchDbConnector db = couchDbConn.getCouchDbConnetor(dbName);
 
-        CouchDbInstance dbInstance = couchDbConn.getCouchDbInstance();
-
-        ReplicationCommand rpcmd = new ReplicationCommand.Builder().source(dbName).target("http://couchdb:dudwls@54.191.147.237:5984/tleafall").continuous(true).build();
-
         db.createDatabaseIfNotExists();
-
         db.replicateFrom("http://couchdb:dudwls@54.191.147.237:5984/designdocdb");
         db.replicateFrom("http://couchdb:dudwls@54.191.147.237:5984/metadata");
+//     +userInfo
 
-//        db.replicateTo("http://couchdb:dudwls@54.191.147.237:5984/tleafall");
+        ReplicationCommand rpcmd =
+                new ReplicationCommand.Builder().source(dbName).target("http://couchdb:dudwls@54.191.147.237:5984/tleafall")
+                        .continuous(true).build();
         dbInstance.replicate( rpcmd );
 
         return true;
