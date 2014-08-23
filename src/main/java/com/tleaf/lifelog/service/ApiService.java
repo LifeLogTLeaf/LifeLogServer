@@ -9,6 +9,6 @@ import java.util.ArrayList;
  */
 public interface ApiService {
     public ArrayList<String> getAllUserLifelog(String userid);
-    public ArrayList<Document> getUserBookmarks(String userid);
+    public ArrayList<Document> getUserLifelog(String userid, String lifelog);
     public String initUserDatabase(String dbName);
 }

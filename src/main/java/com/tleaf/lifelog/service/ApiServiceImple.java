@@ -26,11 +26,11 @@ public class ApiServiceImple implements ApiService {
     }
 
     @Override
-    public ArrayList<Document> getUserBookmarks(String userid) {
+    public ArrayList<Document> getUserLifelog(String userid, String lifelog) {
         ArrayList<Document> data = null;
 
         try {
-            data = apiDao.getUserBookmarks(userid);
+            data = apiDao.getUserLifelof(userid, lifelog);
         } catch (Exception e) {
             e.printStackTrace();
         }

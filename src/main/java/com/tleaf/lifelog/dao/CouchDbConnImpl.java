@@ -25,6 +25,7 @@ public class CouchDbConnImpl implements CouchDbConn {
     public CouchDbInstance getCouchDbInstance() throws Exception {
         StdHttpClient httpClient = null;
         try {
+
             httpClient = (StdHttpClient) new StdHttpClient.Builder()
                     .username(environment.getProperty("id"))
                     .password(environment.getProperty("password"))

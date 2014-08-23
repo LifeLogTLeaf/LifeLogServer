@@ -1,5 +1,7 @@
 package com.tleaf.lifelog.dao;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.tleaf.lifelog.dto.Bookmark;
 import com.tleaf.lifelog.dto.Document;
 import org.codehaus.jackson.JsonNode;
@@ -28,7 +30,7 @@ public class ApiDaoImple implements ApiDao {
      */
     @Override
     public ArrayList<String> getAllUserLifelog(String userid) throws Exception {
-        CouchDbConnector db = couchDbConn.getCouchDbConnetor("richard");
+        CouchDbConnector db = couchDbConn.getCouchDbConnetor(userid);
         db.createDatabaseIfNotExists();
         ArrayList<String> data = new ArrayList<String>();
 
@@ -48,7 +50,6 @@ public class ApiDaoImple implements ApiDao {
     }
 
 
-
     /**
      * 14/08/07 By 장영진
      * 해당사용자의 북마크 로그를 가져온다.
@@ -58,38 +59,33 @@ public class ApiDaoImple implements ApiDao {
      * @throws Exception
      */
     @Override
-    public ArrayList<Document> getUserBookmarks(String userid) throws Exception {
-        CouchDbConnector db = couchDbConn.getCouchDbConnetor("richard");
+    public ArrayList<Document> getUserLifelof(String userid, String lifelog) throws Exception {
+        CouchDbConnector db = couchDbConn.getCouchDbConnetor(userid);
         db.createDatabaseIfNotExists();
         ArrayList<Document> data = new ArrayList<Document>();
 
         ViewQuery query = new ViewQuery()
                 .designDocId("_design/user")
-                .viewName("bookmarks")
-                .key(userid);
+                .viewName(lifelog);
 
         ViewResult result = db.queryView(query);
         Iterator<ViewResult.Row> iterator = result.iterator();
         while (iterator.hasNext()) {
             ViewResult.Row row = iterator.next();
             JsonNode jsonNode = row.getValueAsNode();
-            System.out.println(row.getValue());
+            String type = jsonNode.get("type").asText();
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-            //북마크 객체를 생성하고 받아온 자료를 셋팅해준다.
-            Bookmark bookmark = new Bookmark();
-            bookmark.setTitle(jsonNode.get("title").asText());
-            //bookmark.setsiteUrl(jsonNode.get("site_url").asText());
-            bookmark.setMemo(jsonNode.get("memo").asText());
-            bookmark.setType(jsonNode.get("type").asText());
-            bookmark.setDate(jsonNode.get("date").asText());
-
-            data.add(bookmark);
+            if (type.equals("bookmark")) {
+                Bookmark bookmark = gson.fromJson(row.getValue(), Bookmark.class);
+                data.add(bookmark);
+            }
         }
 
         return data;
     }
 
-    public boolean initUserDatabase( String dbName ) throws Exception {
+    public boolean initUserDatabase(String dbName) throws Exception {
 
         CouchDbConnector db = couchDbConn.getCouchDbConnetor(dbName);
 
@@ -103,7 +99,8 @@ public class ApiDaoImple implements ApiDao {
         db.replicateFrom("http://couchdb:dudwls@54.191.147.237:5984/metadata");
 
 //        db.replicateTo("http://couchdb:dudwls@54.191.147.237:5984/tleafall");
-        dbInstance.replicate( rpcmd );
+        dbInstance.replicate(rpcmd);
+
 
         return true;
 
