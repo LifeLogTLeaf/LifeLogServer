@@ -40,9 +40,12 @@ public class ApiServiceImple implements ApiService {
     @Override
     public String initUserDatabase(String dbName)
     {
+        /*
+        Edited by Susu, 2014.8.21 THU
+         */
         try {
-            apiDao.initUserDatabase(dbName);
-            return "Init Complete";
+            if( apiDao.initUserDatabase(dbName) ) return "Init Complete";
+            else return "Username Already Exists";
         } catch (Exception e) {
             e.printStackTrace();
             return "Init Failed";

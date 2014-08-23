@@ -4,10 +4,10 @@ import com.tleaf.lifelog.service.ApiService;
 import com.tleaf.lifelog.service.ResourceCreator;
 import com.wordnik.swagger.annotations.Api;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -69,9 +69,12 @@ public class ApiController {
      * 2014.08.16 by susu
      */
     @RequestMapping(value = "{dbName}/init")
-    public String initUserDatabase(@PathVariable(value = "dbName") String dbName, ModelMap model) {
-        model.addAttribute("message", apiService.initUserDatabase(dbName));
-        return "hello";
+    @ResponseBody
+    public Map<String,String> initUserDatabase(@PathVariable(value = "dbName") String dbName)
+    {
+        Map<String,String> result = new HashMap<String, String>();
+        result.put( "response", apiService.initUserDatabase(dbName) );
+        return result;
     }
 
 }
