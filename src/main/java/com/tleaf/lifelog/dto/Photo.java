@@ -5,31 +5,31 @@ import java.util.Map;
 /**
  * Created by jangyoungjin on 8/23/14.
  */
-public class Bookmark extends Lifelog {
-    private String title;
-    private String url;
+public class Photo extends Lifelog {
+    private String fileName;
+    private String imgPath;
 
-    public String getTitle() {
-        return title;
+    public String getImgPath() {
+        return imgPath;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setImgPath(String imgPath) {
+        this.imgPath = imgPath;
     }
 
-    public String getSiteUrl() {
-        return url;
+    public String getFileName() {
+        return fileName;
     }
 
-    public void setSiteUrl(String rrl) {
-        this.url = url;
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
     @Override
     public void setMap(Map<String, Object> map) {
         // TODO Auto-generated method stub
-        map.put("title", this.title);
-        map.put("url", this.url);
+        map.put("filename", this.fileName);
+        map.put("imgpath", this.imgPath);
         map.put("longitude", super.getLongitude());
         map.put("latitude", super.getLatitude());
         map.put("locationtime", super.getLocationTime());

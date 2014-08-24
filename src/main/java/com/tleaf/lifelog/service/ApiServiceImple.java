@@ -1,7 +1,7 @@
 package com.tleaf.lifelog.service;
 
 import com.tleaf.lifelog.dao.ApiDao;
-import com.tleaf.lifelog.dto.Document;
+import com.tleaf.lifelog.dto.Lifelog;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -15,10 +15,11 @@ public class ApiServiceImple implements ApiService {
     private ApiDao apiDao;
 
     @Override
-    public ArrayList<String> getAllUserLifelog(String userid) {
-        ArrayList<String> data = null;
+    public ArrayList<Lifelog> getUserLifelog(String userid, String lifelog) {
+        ArrayList<Lifelog> data = null;
+
         try {
-            data = apiDao.getAllUserLifelog(userid);
+            data = apiDao.getUserLifelog(userid, lifelog);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -26,25 +27,12 @@ public class ApiServiceImple implements ApiService {
     }
 
     @Override
-    public ArrayList<Document> getUserLifelog(String userid, String lifelog) {
-        ArrayList<Document> data = null;
-
-        try {
-            data = apiDao.getUserLifelof(userid, lifelog);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return data;
-    }
-
-    @Override
-    public String initUserDatabase(String dbName)
-    {
+    public String initUserDatabase(String dbName) {
         /*
         Edited by Susu, 2014.8.21 THU
          */
         try {
-            if( apiDao.initUserDatabase(dbName) ) return "Init Complete";
+            if (apiDao.initUserDatabase(dbName)) return "Init Complete";
             else return "Username Already Exists";
         } catch (Exception e) {
             e.printStackTrace();

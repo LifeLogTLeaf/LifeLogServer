@@ -1,6 +1,6 @@
 package com.tleaf.lifelog.service;
 
-import com.tleaf.lifelog.dto.Document;
+import com.tleaf.lifelog.dto.Lifelog;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,7 +37,7 @@ public class JsonResourceCreatorimpl implements ResourceCreator {
     }
 
     @Override
-    public Map<String, Object> createJsonMapData(ArrayList<Document> data) {
+    public Map<String, Object> createJsonMapData(ArrayList<Lifelog> data) {
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("version", VERSION);
         result.put("count", data.size());
@@ -45,7 +45,7 @@ public class JsonResourceCreatorimpl implements ResourceCreator {
         return result;
     }
 
-    public String createErrorJsonData(){
+    public String createErrorJsonData() {
         String result = "";
 
         return result;

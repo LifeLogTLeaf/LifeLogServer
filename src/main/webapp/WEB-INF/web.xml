@@ -29,4 +29,15 @@
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 
+    <!-- 스프링 리퀘스트 필터링. -->
+    <filter>
+        <filter-name>cors</filter-name>
+        <filter-class>com.tleaf.lifelog.util.CorsFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>cors</filter-name>
+        <url-pattern>/api/*</url-pattern>
+    </filter-mapping>
+
 </web-app>

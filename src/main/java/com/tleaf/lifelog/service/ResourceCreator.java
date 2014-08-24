@@ -1,6 +1,6 @@
 package com.tleaf.lifelog.service;
 
-import com.tleaf.lifelog.dto.Document;
+import com.tleaf.lifelog.dto.Lifelog;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -10,6 +10,7 @@ import java.util.Map;
  */
 public interface ResourceCreator {
     String createJsonStringData(ArrayList<String> data);
-    Map<String, Object> createJsonMapData(ArrayList<Document> data);
+
+    Map<String, Object> createJsonMapData(ArrayList<Lifelog> data);
 
 }

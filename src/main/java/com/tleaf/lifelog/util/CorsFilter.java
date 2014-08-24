@@ -17,13 +17,12 @@ public class CorsFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest httpServletRequest,
                                     HttpServletResponse httpServletResponse,
                                     FilterChain filterChain) throws ServletException, IOException {
-
-        if (httpServletRequest.getHeader("Access-Control-Request-Method") != null
-                && "OPTIONS".equals(httpServletRequest.getMethod())) {
+        System.out.println("filtering...");
+        if (httpServletRequest.getHeader("Access-Control-Request-Method") != null && "OPTIONS".equals(httpServletRequest.getMethod())) {
+            System.out.println("CORS...");
             httpServletResponse.addHeader("Access-Control-Allow-Origin", "*");
             httpServletResponse.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-            httpServletResponse.addHeader("Access-Control-Allow-Headers",
-                    "origin, content-type, accept, x-requested-with, sid, mycustom, smuser");
+            httpServletResponse.addHeader("Access-Control-Allow-Headers", "origin, content-type, accept, x-requested-with, sid, mycustom, smuser");
             httpServletResponse.addHeader("Access-Control-Max-Age", "1800");//30 min
         }
         filterChain.doFilter(httpServletRequest, httpServletResponse);

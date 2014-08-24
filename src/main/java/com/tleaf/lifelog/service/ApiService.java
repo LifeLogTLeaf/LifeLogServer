@@ -1,6 +1,6 @@
 package com.tleaf.lifelog.service;
 
-import com.tleaf.lifelog.dto.Document;
+import com.tleaf.lifelog.dto.Lifelog;
 
 import java.util.ArrayList;
 
@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * Created by jangyoungjin on 7/27/14.
  */
 public interface ApiService {
-    public ArrayList<String> getAllUserLifelog(String userid);
-    public ArrayList<Document> getUserLifelog(String userid, String lifelog);
+    public ArrayList<Lifelog> getUserLifelog(String userid, String lifelog);
+
     public String initUserDatabase(String dbName);
 }
