@@ -44,16 +44,15 @@ public class ApiDaoImple implements ApiDao {
         while (iterator.hasNext()) {
             ViewResult.Row row = iterator.next();
             JsonNode jsonNode = row.getValueAsNode();
-            String type = jsonNode.get("type").asText();
-
             System.out.println(row.getValue());
-
-            if (type != null){
-                addDataToArray(data, type, row);
+            if( jsonNode.get("logType") !=null){
+                String type = jsonNode.get("logType").asText();
+                if (type != null){
+                    addDataToArray(data, type, row);
+                }
             }
-
-
         }
+
 
         return data;
     }

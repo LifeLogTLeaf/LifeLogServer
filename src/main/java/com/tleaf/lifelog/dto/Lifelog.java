@@ -7,6 +7,7 @@ import java.util.Map;
 /**
  * Created by jangyoungjin on 8/23/14.
  */
+
 public abstract class Lifelog {
     @JsonProperty("_id")
     protected String id;

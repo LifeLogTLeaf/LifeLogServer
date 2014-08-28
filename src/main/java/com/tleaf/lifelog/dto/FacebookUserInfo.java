@@ -1,11 +1,15 @@
 package com.tleaf.lifelog.dto;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by jangyoungjin on 8/23/14.
  */
-public class FacebookUserInfo {
+@JsonIgnoreProperties
+public class FacebookUserInfo implements Serializable {
     private String facebookId;
     private String facebookAccesskey;
     private String facebookLastpostDate;

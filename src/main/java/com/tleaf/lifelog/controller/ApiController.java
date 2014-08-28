@@ -1,5 +1,7 @@
 package com.tleaf.lifelog.controller;
 
+import com.google.gson.Gson;
+import com.tleaf.lifelog.dto.UserInfo;
 import com.tleaf.lifelog.service.ApiService;
 import com.tleaf.lifelog.service.ResourceCreator;
 import org.springframework.http.HttpHeaders;
@@ -44,6 +46,26 @@ public class ApiController {
         ResponseEntity<Map<String, Object>> entity = new ResponseEntity<Map<String, Object>>(result, headers, HttpStatus.OK);
         return entity;
     }
+
+    /**
+     * 2014.08.27 by young
+     */
+    @RequestMapping(value = "facebooklogin", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> setFacebookUserinfor(@RequestBody String jsonString) {
+        //CORS 규약에 맞게 Response에 해당 규약을 넣는다.
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Access-Control-Allow-Origin", "*");
+
+        Gson gson = new Gson();
+        UserInfo userInfo = gson.fromJson(jsonString, UserInfo.class);
+
+
+        Map<String, Object> result = new HashMap<String, Object>();
+        ResponseEntity<Map<String, Object>> entity = new ResponseEntity<Map<String, Object>>(result, headers, HttpStatus.OK);
+        return entity;
+    }
+
 
     /**
      * 2014.08.16 by susu
