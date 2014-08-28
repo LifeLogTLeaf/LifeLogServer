@@ -90,28 +90,56 @@ public class ApiDaoImple implements ApiDao {
     }
 
 
-    public boolean initUserDatabase(String dbName) throws Exception {
-
-        CouchDbInstance dbInstance = couchDbConn.getCouchDbInstance();
-        if (dbInstance.checkIfDbExists(DbPath.fromString(dbName))) return false;
+    public String initUserDatabase(UserInfo userInfo) throws Exception {
 
         /*
-        Edited by Susu, 2014.8.21
+        Edited by Susu, 2014.8.21 , 2014.8.26
         Added Checking Methods
+        Checking http Request with DeviceId
          */
 
-        CouchDbConnector db = couchDbConn.getCouchDbConnetor(dbName);
+        String dbName = userInfo.getUserName();
+        Device device = userInfo.getDeviceArrayList().get(0);
 
+        // Check if Username is Already Taken
+        CouchDbInstance dbInstance = couchDbConn.getCouchDbInstance();
+        if ( dbInstance.checkIfDbExists(DbPath.fromString(dbName)) ) return "Username Already Exists";
+
+        // Check if Device is Registered
+        CouchDbConnector devicedb = couchDbConn.getCouchDbConnetor("devices");
+        Device checkDevice = devicedb.find( Device.class , device.getId() );
+
+        if( checkDevice != null ) return "Device is Already Registered in TLeaf";
+
+        // Create User Database and
+        // 1. Import Design Document  2. Register DeviceId  3. Register User  4. set Continous Replication to tleafall
+
+        // 1.
+        CouchDbConnector db;
+        try{
+            db = couchDbConn.getCouchDbConnetor(dbName);
+        }catch ( Exception e )
+        {
+            e.printStackTrace();
+            return "Only lowercase characters (a-z), digits (0-9), and any of the characters _, $, (, ), +, -, and / are allowed. Must begin with a letter.";
+        }
         db.createDatabaseIfNotExists();
         db.replicateFrom("http://couchdb:dudwls@54.191.147.237:5984/designdocdb");
-        db.replicateFrom("http://couchdb:dudwls@54.191.147.237:5984/metadata");
-//     +userInfo
+
+        // 2.
+        devicedb.create( device.getId() , device );
+
+        // 3.
+        CouchDbConnector user = couchDbConn.getCouchDbConnetor("userdb");
+        user.create( userInfo );
+
+        // 4.
         ReplicationCommand rpcmd =
-                new ReplicationCommand.Builder().source(dbName).target("http://couchdb:dudwls@54.191.147.237:5984/tleafall")
+                new ReplicationCommand.Builder().source(dbName).target("http://subin:subin@172.16.100.153:5984/tleafall")
                         .continuous(true).build();
         dbInstance.replicate(rpcmd);
 
-        return true;
+        return "User Database Created";
 
     }
 

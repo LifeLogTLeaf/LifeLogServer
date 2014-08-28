@@ -2,6 +2,7 @@ package com.tleaf.lifelog.service;
 
 import com.tleaf.lifelog.dao.ApiDao;
 import com.tleaf.lifelog.dto.Lifelog;
+import com.tleaf.lifelog.dto.UserInfo;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -27,13 +28,12 @@ public class ApiServiceImple implements ApiService {
     }
 
     @Override
-    public String initUserDatabase(String dbName) {
+    public String initUserDatabase(UserInfo userInfo) {
         /*
         Edited by Susu, 2014.8.21 THU
          */
         try {
-            if (apiDao.initUserDatabase(dbName)) return "Init Complete";
-            else return "Username Already Exists";
+            return apiDao.initUserDatabase( userInfo );
         } catch (Exception e) {
             e.printStackTrace();
             return "Init Failed";

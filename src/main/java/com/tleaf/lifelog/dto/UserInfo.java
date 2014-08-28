@@ -1,13 +1,20 @@
 package com.tleaf.lifelog.dto;
 
-import java.util.Map;
+import org.codehaus.jackson.annotate.JsonProperty;
+
+import java.util.ArrayList;
 
 /**
  * Created by jangyoungjin on 8/23/14.
  */
-public class UserInfo extends Lifelog {
+public class UserInfo {
+    @JsonProperty("_id")
     private String userName;
+    @JsonProperty("_rev")
+    private String rev;
+
     private String gender;
+    private ArrayList<Device> deviceArrayList;
     private FacebookUserInfo userFacebookInfo;
 
     public String getUserName() {
@@ -34,17 +41,11 @@ public class UserInfo extends Lifelog {
         this.userFacebookInfo = userFacebookUserInfo;
     }
 
-    @Override
-    public void setMap(Map<String, Object> map) {
-        // TODO Auto-generated method stub
-        map.put("username", this.userName);
-        map.put("gender", this.gender);
-        map.put("userfacebookinfo", this.userFacebookInfo);
-        map.put("longitude", super.getLongitude());
-        map.put("latitude", super.getLatitude());
-        map.put("locationtime", super.getLocationTime());
-        map.put("type", super.getType());
-        map.put("logtime", super.getLogTime());
+    public ArrayList<Device> getDeviceArrayList() {
+        return deviceArrayList;
+    }
 
+    public void setDeviceArrayList(ArrayList<Device> deviceArrayList) {
+        this.deviceArrayList = deviceArrayList;
     }
 }
