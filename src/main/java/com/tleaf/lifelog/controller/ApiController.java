@@ -1,16 +1,20 @@
 package com.tleaf.lifelog.controller;
 
 import com.google.gson.Gson;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tleaf.lifelog.dto.UserInfo;
 import com.tleaf.lifelog.service.ApiService;
 import com.tleaf.lifelog.service.ResourceCreator;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -69,12 +73,24 @@ public class ApiController {
 
     /**
      * 2014.08.16 by susu
+     * 2014.08.26 bu susu
+     * edited init method with user object
      */
-    @RequestMapping(value = "{dbName}/init")
+    @RequestMapping(value = "user", method = RequestMethod.GET)
     @ResponseBody
-    public Map<String, String> initUserDatabase(@PathVariable(value = "dbName") String dbName) {
+    public Map<String, String> initUserDatabase(@RequestParam(value = "userinfo" , required = true) String userinfo) {
         Map<String, String> result = new HashMap<String, String>();
-        result.put("response", apiService.initUserDatabase(dbName));
+
+        UserInfo userInfo = new UserInfo();
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            userInfo = mapper.readValue(userinfo, new TypeReference<UserInfo>(){});
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        result.put("response", apiService.initUserDatabase( userInfo ));
+//          result.put("response", userinfo);
         return result;
     }
 

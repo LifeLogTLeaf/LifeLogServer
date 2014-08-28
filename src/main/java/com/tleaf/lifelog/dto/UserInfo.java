@@ -3,14 +3,22 @@ package com.tleaf.lifelog.dto;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import java.io.Serializable;
+import org.codehaus.jackson.annotate.JsonProperty;
+
+import java.util.ArrayList;
 
 /**
  * Created by jangyoungjin on 8/23/14.
  */
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class UserInfo{
+@JsonProperty("_id")
     private String userName;
+    @JsonProperty("_rev")
+    private String rev;
+
     private String gender;
+    private ArrayList<Device> deviceArrayList;
     private FacebookUserInfo userFacebookInfo;
 
     public String getUserName() {
@@ -35,6 +43,14 @@ public class UserInfo{
 
     public void setUserFacebookUserInfo(FacebookUserInfo userFacebookUserInfo) {
         this.userFacebookInfo = userFacebookUserInfo;
+    }
+
+    public ArrayList<Device> getDeviceArrayList() {
+        return deviceArrayList;
+    }
+
+    public void setDeviceArrayList(ArrayList<Device> deviceArrayList) {
+        this.deviceArrayList = deviceArrayList;
     }
 }
 

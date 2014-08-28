@@ -1,6 +1,7 @@
 package com.tleaf.lifelog.dao;
 
 import com.tleaf.lifelog.dto.Lifelog;
+import com.tleaf.lifelog.dto.UserInfo;
 
 import java.util.ArrayList;
 
@@ -9,6 +10,6 @@ import java.util.ArrayList;
  */
 public interface ApiDao {
     public ArrayList<Lifelog> getUserLifelog(String userid, String lifelog) throws Exception;
-    public boolean initUserDatabase(String dbName) throws Exception;
+    public String initUserDatabase(UserInfo userInfo) throws Exception;
 }
 
