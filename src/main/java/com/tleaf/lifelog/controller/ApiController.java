@@ -8,7 +8,6 @@ import com.tleaf.lifelog.service.ApiService;
 import com.tleaf.lifelog.service.ResourceCreator;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -53,6 +52,7 @@ public class ApiController {
 
     /**
      * 2014.08.27 by young
+     * 페이스북 로그인로직에 해당하는 컨트롤러입니다.
      */
     @RequestMapping(value = "facebooklogin", method = RequestMethod.POST)
     @ResponseBody
@@ -63,10 +63,13 @@ public class ApiController {
 
         Gson gson = new Gson();
         UserInfo userInfo = gson.fromJson(jsonString, UserInfo.class);
+        String result = apiService.initFacebookUser(userInfo);
 
+        //System.out.println(userInfo.getUserId());
 
-        Map<String, Object> result = new HashMap<String, Object>();
-        ResponseEntity<Map<String, Object>> entity = new ResponseEntity<Map<String, Object>>(result, headers, HttpStatus.OK);
+        Map<String, Object> mapResult = new HashMap<String, Object>();
+        mapResult.put("result", result);
+        ResponseEntity<Map<String, Object>> entity = new ResponseEntity<Map<String, Object>>(mapResult, headers, HttpStatus.OK);
         return entity;
     }
 

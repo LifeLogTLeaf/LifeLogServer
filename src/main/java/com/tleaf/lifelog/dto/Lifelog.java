@@ -18,10 +18,9 @@ public abstract class Lifelog {
     private double latitude;
     private double longitude;
     private long locationTime;
-
+    private String logType;
 
     private long logTime;
-    private String type;
 
     public double getLatitude() {
         return latitude;
@@ -71,14 +70,11 @@ public abstract class Lifelog {
         this.logTime = logTime;
     }
 
-    public String getType() {
-        return type;
+    public String getLogType() {
+        return logType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setLogType(String logType) {
+        this.logType = logType;
     }
-
-    public abstract void setMap(Map<String, Object> map);
-
 }

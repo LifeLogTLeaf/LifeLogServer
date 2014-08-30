@@ -12,4 +12,6 @@ public interface ApiService {
     public ArrayList<Lifelog> getUserLifelog(String userid, String lifelog);
 
     public String initUserDatabase(UserInfo userInfo);
+
+    public String initFacebookUser(UserInfo userInfo);
 }

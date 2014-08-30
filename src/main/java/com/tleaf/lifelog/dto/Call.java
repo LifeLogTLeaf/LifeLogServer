@@ -47,17 +47,5 @@ public class Call extends Lifelog {
         this.type = type;
     }
     */
-    @Override
-    public void setMap(Map<String, Object> map) {
-        // TODO Auto-generated method stub
-        map.put("name", this.name);
-        map.put("date", this.date);
-        map.put("number", this.number);
-        map.put("longitude", super.getLongitude());
-        map.put("latitude", super.getLatitude());
-        map.put("locationtime", super.getLocationTime());
-        map.put("type", super.getType());
-        map.put("logtime", super.getLogTime());
-    }
 
 }

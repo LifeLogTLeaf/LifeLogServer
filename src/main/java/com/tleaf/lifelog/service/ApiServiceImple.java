@@ -39,4 +39,15 @@ public class ApiServiceImple implements ApiService {
             return "Init Failed";
         }
     }
+
+    @Override
+    public String initFacebookUser(UserInfo userInfo) {
+        try {
+            apiDao.initUserFacebook( userInfo );
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "false";
+        }
+        return "true";
+    }
 }

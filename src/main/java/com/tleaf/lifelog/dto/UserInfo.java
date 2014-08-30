@@ -17,6 +17,8 @@ public class UserInfo{
     @JsonProperty("_rev")
     private String rev;
 
+
+    private String userId;
     private String gender;
     private ArrayList<Device> deviceArrayList;
     private FacebookUserInfo userFacebookInfo;
@@ -51,6 +53,14 @@ public class UserInfo{
 
     public void setDeviceArrayList(ArrayList<Device> deviceArrayList) {
         this.deviceArrayList = deviceArrayList;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }
 
