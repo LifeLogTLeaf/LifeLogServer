@@ -1,7 +1,9 @@
 package com.tleaf.lifelog.dto;
 
-public class Device {
+import org.codehaus.jackson.annotate.JsonProperty;
 
+public class Device {
+    @JsonProperty("_id")
 	private String id;
 	private String Nickname;
 

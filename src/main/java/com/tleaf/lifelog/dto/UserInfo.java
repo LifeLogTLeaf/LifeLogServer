@@ -9,20 +9,13 @@ import java.util.ArrayList;
  */
 public class UserInfo {
     @JsonProperty("_id")
-    private String userName;
-    @JsonProperty("_rev")
-    private String rev;
-
+    private String id;
     private String gender;
     private ArrayList<Device> deviceArrayList;
     private FacebookUserInfo userFacebookInfo;
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public String getId() {
+        return id;
     }
 
     public String getGender() {

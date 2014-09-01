@@ -55,7 +55,7 @@ public class ApiController {
      * 2014.08.26 bu susu
      * edited init method with user object
      */
-    @RequestMapping(value = "user", method = RequestMethod.GET)
+    @RequestMapping(value = "user", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, String> initUserDatabase(@RequestParam(value = "userinfo" , required = true) String userinfo) {
         Map<String, String> result = new HashMap<String, String>();

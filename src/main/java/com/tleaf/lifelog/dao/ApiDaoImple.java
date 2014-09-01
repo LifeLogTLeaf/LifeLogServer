@@ -98,7 +98,7 @@ public class ApiDaoImple implements ApiDao {
         Checking http Request with DeviceId
          */
 
-        String dbName = userInfo.getUserName();
+        String dbName = userInfo.getId();
         Device device = userInfo.getDeviceArrayList().get(0);
 
         // Check if Username is Already Taken
@@ -124,18 +124,18 @@ public class ApiDaoImple implements ApiDao {
             return "Only lowercase characters (a-z), digits (0-9), and any of the characters _, $, (, ), +, -, and / are allowed. Must begin with a letter.";
         }
         db.createDatabaseIfNotExists();
-        db.replicateFrom("http://couchdb:dudwls@54.191.147.237:5984/designdocdb");
+        db.replicateFrom("http://couchdb:dudwls@54.191.147.237:5984//designdocdb");
 
         // 2.
         devicedb.create( device.getId() , device );
 
         // 3.
         CouchDbConnector user = couchDbConn.getCouchDbConnetor("userdb");
-        user.create( userInfo );
+        user.create( userInfo.getId(), userInfo );
 
         // 4.
         ReplicationCommand rpcmd =
-                new ReplicationCommand.Builder().source(dbName).target("http://subin:subin@172.16.100.153:5984/tleafall")
+                new ReplicationCommand.Builder().source(dbName).target("http://couchdb:dudwls@54.191.147.237:5984//tleafall")
                         .continuous(true).build();
         dbInstance.replicate(rpcmd);
 
@@ -144,4 +144,3 @@ public class ApiDaoImple implements ApiDao {
     }
 
 }
-
