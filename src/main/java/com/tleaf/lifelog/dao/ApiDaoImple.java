@@ -2,6 +2,7 @@ package com.tleaf.lifelog.dao;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
 import com.tleaf.lifelog.dto.*;
 import org.codehaus.jackson.JsonNode;
 import org.ektorp.*;
@@ -15,6 +16,10 @@ import java.util.Iterator;
  */
 
 public class ApiDaoImple implements ApiDao {
+    private static final String REMOTE = "http://couchdb:dudwls@54.191.147.237:5984/";
+    private static final String USERDB = "userdb";
+    private static final String COLLETORDB = "alldata";
+
 
     @Inject
     private CouchDbConn couchDbConn;
@@ -44,20 +49,20 @@ public class ApiDaoImple implements ApiDao {
         while (iterator.hasNext()) {
             ViewResult.Row row = iterator.next();
             JsonNode jsonNode = row.getValueAsNode();
-            String type = jsonNode.get("type").asText();
-
             System.out.println(row.getValue());
-
-            if (type != null){
-                addDataToArray(data, type, row);
+            if( jsonNode.get("logType") !=null){
+                String type = jsonNode.get("logType").asText();
+                if (type != null){
+                    addDataToArray(data, type, row);
+                }
             }
-
-
         }
+
 
         return data;
     }
 
+    //리펙토링.
     /* 타입에 맞게 배열에 데이터를 저장합니다. */
     private void addDataToArray(ArrayList<Lifelog> data, String type, ViewResult.Row row){
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -141,6 +146,51 @@ public class ApiDaoImple implements ApiDao {
 
         return "User Database Created";
 
+    }
+
+    /**
+     * 2014.08.29 by YoungJin
+     * 페이스북로그인시 데이터베이스에 새로운 유저 데이터베이스를 생성하고 레플리케이션작업을 수행합니다.
+     * @param userInfo
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public String initUserFacebook(UserInfo userInfo) throws Exception {
+        System.out.println(userInfo.getUserId());
+        System.out.println(userInfo.getUserName());
+        System.out.println(userInfo.getGender());
+        String dbName = userInfo.getUserId();
+        CouchDbInstance dbInstance = couchDbConn.getCouchDbInstance();
+
+        //사용자 디비 생성.
+        CouchDbConnector db = couchDbConn.getCouchDbConnetor(userInfo.getUserFacebookUserInfo().getFacebookId());
+        db.createDatabaseIfNotExists();
+
+        // 레플리케이션 시작.
+        db.replicateFrom(REMOTE+"designdocdb");
+
+
+        // 데이터수집 디비 레플리케이션 시작.
+        ReplicationCommand rpcmd = new ReplicationCommand
+                .Builder()
+                .source(dbName)
+                .target(COLLETORDB)
+                .continuous(true)
+                .build();
+        dbInstance.replicate(rpcmd);
+
+
+        try {
+            // 사용자정보를 저장하는 디비에 사용자를 저장.
+            CouchDbConnector userdb = couchDbConn.getCouchDbConnetor(USERDB);
+            userdb.createDatabaseIfNotExists();
+            userdb.create(userInfo);
+        } catch (Exception e){
+            return "failed";
+        }
+
+        return "success";
     }
 
 }

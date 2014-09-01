@@ -1,5 +1,6 @@
 package com.tleaf.lifelog.controller;
 
+import com.google.gson.Gson;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tleaf.lifelog.dto.UserInfo;
@@ -7,7 +8,6 @@ import com.tleaf.lifelog.service.ApiService;
 import com.tleaf.lifelog.service.ResourceCreator;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -49,6 +49,30 @@ public class ApiController {
         ResponseEntity<Map<String, Object>> entity = new ResponseEntity<Map<String, Object>>(result, headers, HttpStatus.OK);
         return entity;
     }
+
+    /**
+     * 2014.08.27 by young
+     * 페이스북 로그인로직에 해당하는 컨트롤러입니다.
+     */
+    @RequestMapping(value = "facebooklogin", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> setFacebookUserinfor(@RequestBody String jsonString) {
+        //CORS 규약에 맞게 Response에 해당 규약을 넣는다.
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Access-Control-Allow-Origin", "*");
+
+        Gson gson = new Gson();
+        UserInfo userInfo = gson.fromJson(jsonString, UserInfo.class);
+        String result = apiService.initFacebookUser(userInfo);
+
+        //System.out.println(userInfo.getUserId());
+
+        Map<String, Object> mapResult = new HashMap<String, Object>();
+        mapResult.put("result", result);
+        ResponseEntity<Map<String, Object>> entity = new ResponseEntity<Map<String, Object>>(mapResult, headers, HttpStatus.OK);
+        return entity;
+    }
+
 
     /**
      * 2014.08.16 by susu

@@ -1,5 +1,8 @@
 package com.tleaf.lifelog.dto;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
+import java.io.Serializable;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.util.ArrayList;
@@ -7,6 +10,7 @@ import java.util.ArrayList;
 /**
  * Created by jangyoungjin on 8/23/14.
  */
+
 public class UserInfo {
     @JsonProperty("_id")
     private String id;
@@ -41,4 +45,13 @@ public class UserInfo {
     public void setDeviceArrayList(ArrayList<Device> deviceArrayList) {
         this.deviceArrayList = deviceArrayList;
     }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 }
+

@@ -11,5 +11,6 @@ import java.util.ArrayList;
 public interface ApiDao {
     public ArrayList<Lifelog> getUserLifelog(String userid, String lifelog) throws Exception;
     public String initUserDatabase(UserInfo userInfo) throws Exception;
+    public String initUserFacebook(UserInfo userInfo) throws Exception;
 }
 
